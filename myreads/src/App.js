@@ -1,20 +1,38 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom'
 import logo from './logo.svg';
 import './App.css';
 
+class ListBooks extends React.Component {
+  render() {
+    return 'List books'
+  }
+}
+
+class SearchBooks extends React.Component {
+  render() {
+    return 'Search books'
+  }
+}
+
 class App extends Component {
+
+  state = {
+    books: []
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
+      <div>
+        <Route path="/" exact render={() => (
+          <ListBooks
+            books={this.state.books}
+          />
+        )}/>
 
-        Foo
-
-        </p>
+        <Route path='/search' render={({ history }) => (
+          <SearchBooks />
+        )}/>
       </div>
     );
   }
