@@ -48,9 +48,32 @@ Start the development server.
 npm start
 ```
 
-Set up and start the backend server. 
+No need for a backend server, as we're working with the Udacity Books API. 
 
-Overview the structure of the app.
+Looked at the hardcoded App.js in the starter app. It looks like this rough structure could meet our UI needs:
 
+```
+ListBooks
+  Bookshelf
+    Book
+      SelectShelf
+SearchBooks
+  Book
+    SelectShelf
+```
 
+The two routes in App.js can be:
 
+```
+('/') ListBooks
+('/search') SearchBooks
+```
+
+The BooksAPI calls available are:
+
+```
+get(bookid)
+getAll()
+update(book, shelf)
+search(query)
+```
