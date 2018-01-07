@@ -1,5 +1,21 @@
 # MyReads
-App to track books I've read, am reading, or want to read. 
+
+This React app tracks books I've read, am reading, or want to read. It was created using [Create React App](https://github.com/facebookincubator/create-react-app) and uses files from Udacity's [reactnd-project-myreads-starter](https://github.com/udacity/reactnd-project-myreads-starter). It was the first project for the Udacity React Nanodegree.
+
+# Usage
+
+Clone the repository.
+
+```
+git clone https://github.com/wicker/MyReads.git
+```
+
+Install project dependencies and start the dev server.
+
+```
+npm install
+npm start
+```
 
 # Log
 
@@ -32,6 +48,9 @@ Start the development server.
 npm start
 ```
 
+Set up and start the backend server. 
+
 Overview the structure of the app.
+
 
 
