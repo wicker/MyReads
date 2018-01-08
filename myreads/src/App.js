@@ -1,14 +1,24 @@
 import React, { Component } from 'react'
 import { Route, Link } from 'react-router-dom'
 import './App.css';
+import * as BooksAPI from './BooksAPI'
 import PropTypes from 'prop-types'
 
 class SelectShelf extends Component {
 
+  static propTypes = {
+    book: PropTypes.object.isRequired
+  }
+
   render() {
+
+    const { book } = this.props
+
     return (
       <div className="book-shelf-changer">
-        <select>
+        <select id="shelf" value={ book.shelf }
+          onChange={(event) => book.setState({shelf: event.target.value})}
+        >
           <option value="none" disabled>Move to...</option>
           <option value="currentlyReading">Currently Reading</option>
           <option value="wantToRead">Want to Read</option>
@@ -37,7 +47,16 @@ class Book extends Component {
             <div className="book-cover" style={{ width: `${ book.width }`,
                                                  height: `${ book.height }`,
                                                  backgroundImage: `url(${ book.backgroundImage })` }}></div>
-            <SelectShelf />
+          <div className="book-shelf-changer">
+            <select id="shelf" value={ book.shelf }
+            >
+              <option value="none" disabled>Move to...</option>
+              <option value="currentlyReading">Currently Reading</option>
+              <option value="wantToRead">Want to Read</option>
+              <option value="read">Read</option>
+              <option value="none">Remove Book</option>
+            </select>
+          </div>
           </div>
           <div className="book-title">{ book.title }</div>
           <div className="book-authors">{ book.authors }</div>
@@ -89,7 +108,7 @@ class ListBooks extends Component {
                      { title: "Want To Read",
                        funcName: "wantToRead" },
                      { title: "Read",
-                       funcName: "alreadyFinished" }]
+                       funcName: "read" }]
 
     const { books } = this.props
 
@@ -146,38 +165,17 @@ class SearchBooks extends Component {
 class App extends Component {
 
   state = {
-    books: [
-      {
-        "key":1,
-        "title": "To Kill a Mockingbird",
-        "authors": "Harper Lee",
-        "width": 128,
-        "height": 193,
-        "backgroundImage": "./icons/tokill.png",
-        "shelf":"currentlyReading",
-      },
-      {
-        "key":2,
-        "title": "Ender's Game",
-        "authors": "Orson Scott Card",
-        "width": "128",
-        "height": "188",
-        "backgroundImage": "http://books.google.com/books/content?id=yDtCuFHXbAYC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72RRiTR6U5OUg3IY_LpHTL2NztVWAuZYNFE8dUuC0VlYabeyegLzpAnDPeWxE6RHi0C2ehrR9Gv20LH2dtjpbcUcs8YnH5VCCAH0Y2ICaKOTvrZTCObQbsfp4UbDqQyGISCZfGN&source=gbs_api",
-        "shelf":"wantToRead",
-      },
-      {
-        "key":3,
-        "title": "Fine Prey",
-        "authors": "Scott Westerfeld",
-        "width": "128",
-        "height": "188",
-        "backgroundImage": "https://s17-us2.ixquick.com/cgi-bin/serveimage?url=https%3A%2F%2Fi.gr-assets.com%2Fimages%2FS%2Fcompressed.photo.goodreads.com%2Fbooks%2F1389237043i%2F186105._UY630_SR1200%2C630_.jpg&sp=784db9a71f3057c57adb4d40f34db473",
-        "shelf":"alreadyFinished",
-      }
-    ]
+    books: []
+  }
+
+  componentDidMount() {
+    BooksAPI.getAll().then((books) => {
+      this.setState({ books })
+    })
   }
 
   render() {
+
     return (
       <div>
         <Route path="/" exact render={() => (
