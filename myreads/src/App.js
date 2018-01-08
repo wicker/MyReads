@@ -47,10 +47,11 @@ class Book extends Component {
       <div key={ book.key }>
         <div className="book">
           <div className="book-top">
-            <div className="book-cover" style={{ width: '128px',
-                                                 height: '192px',
-                                                 backgroundImage: `url(${ book.imageLinks.smallThumbnail })` }}></div>
-          { console.log(book) }
+            <a href={book.infoLink} target="_blank">
+              { console.log({book}) }
+              <div className="book-cover" style={{ width: '128px',
+                    height: '192px',
+                    backgroundImage: `url(${ book.imageLinks.smallThumbnail })` }}></div></a>
           <SelectShelf book={book} selectShelf={selectShelf} />
 
           </div>
