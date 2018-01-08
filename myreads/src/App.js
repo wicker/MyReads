@@ -86,8 +86,8 @@ class BookShelf extends Component {
         <h2 className="bookshelf-title">{ shelf.title }</h2>
         <div className="bookshelf-books">
 
-          {books.filter((book) =>
-            (book.shelf == shelf.funcName))
+        {books.filter((book) =>
+            (book.shelf === shelf.funcName))
                 .map((book) =>
             (<Book book={book} key={book.id} selectShelf={selectShelf}/>))
           }
@@ -145,9 +145,11 @@ class SearchBooks extends Component {
     bookResults: []
   }
 
+
   updateQuery = (query) => {
-    BooksAPI.search(query).then((bookResults) => {
-      this.setState({ query: query.replace(/^\s+|\s+$/g, '') })
+    this.setState({ query: query.replace(/^\s+|\s+$/g, '') })
+    BooksAPI.search(this.state.query, 12).then((bookResults) => {
+      this.setState({ bookResults: this.state.bookResults })
     })
   }
 
@@ -178,7 +180,8 @@ class SearchBooks extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            <li>{query}</li>
+            <li>{ query }</li>
+            <li>{ bookResults }</li>
           </ol>
         </div>
       </div>
@@ -199,12 +202,15 @@ class App extends Component {
     })
   }
 
-  selectShelf(bookToUpdate, selectedShelf) {
-    BooksAPI.update(bookToUpdate, selectedShelf).then(bookToUpdate => {
+  selectShelf = (bookToUpdate, selectedShelf) => {
+    BooksAPI.update(bookToUpdate, selectedShelf).then(response => {
       bookToUpdate.shelf = selectedShelf
-      this.setState({
-        books: this.state.books.filter(book => book.id != bookToUpdate.id).push(bookToUpdate)
-      })
+
+      const booksToUpdate = this.state.books.filter( book => book.id !== bookToUpdate.id)
+      booksToUpdate.push(bookToUpdate)
+
+      this.setState({ books: booksToUpdate })
+
     })
   }
 
