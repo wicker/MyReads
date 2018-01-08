@@ -33,12 +33,13 @@ class SelectShelf extends Component {
 class Book extends Component {
 
   static propTypes = {
-    book: PropTypes.object.isRequired
+    book: PropTypes.object.isRequired,
+    selectShelf: PropTypes.func.isRequired
   }
 
   render() {
 
-    const { book } = this.props
+    const { book, selectShelf } = this.props
 
     return (
       <div key={ book.key }>
@@ -49,12 +50,14 @@ class Book extends Component {
                                                  backgroundImage: `url(${ book.backgroundImage })` }}></div>
           <div className="book-shelf-changer">
             <select id="shelf" value={ book.shelf }
-            >
+              onChange={(e) => selectShelf(book, e.target.value)}>
+
               <option value="none" disabled>Move to...</option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
               <option value="read">Read</option>
               <option value="none">Remove Book</option>
+
             </select>
           </div>
           </div>
@@ -70,13 +73,13 @@ class BookShelf extends Component {
 
   static propTypes = {
     books: PropTypes.array.isRequired,
-    shelf: PropTypes.object.isRequired
+    shelf: PropTypes.object.isRequired,
+    selectShelf: PropTypes.func.isRequired
   }
 
   render() {
 
-    const { books, shelf } = this.props
-    var booksOnThisShelf
+    const { books, shelf, selectShelf } = this.props
 
     return (
       <div className="bookshelf">
@@ -86,7 +89,7 @@ class BookShelf extends Component {
           {books.filter((book) =>
             (book.shelf == shelf.funcName))
                 .map((book) =>
-            (<Book book={book}/>))
+            (<Book book={book} selectShelf={selectShelf}/>))
           }
 
         </div>
@@ -98,7 +101,8 @@ class BookShelf extends Component {
 class ListBooks extends Component {
 
   static propTypes = {
-    books: PropTypes.array.isRequired
+    books: PropTypes.array.isRequired,
+    selectShelf: PropTypes.func.isRequired
   }
 
   render() {
@@ -110,7 +114,7 @@ class ListBooks extends Component {
                      { title: "Read",
                        funcName: "read" }]
 
-    const { books } = this.props
+    const { books, selectShelf } = this.props
 
     return (
       <div className="list-books">
@@ -121,9 +125,9 @@ class ListBooks extends Component {
         <div className="list-books-content">
           <div>
 
-            <BookShelf books={books} shelf={shelves[0]}/>
-            <BookShelf books={books} shelf={shelves[1]}/>
-            <BookShelf books={books} shelf={shelves[2]}/>
+            <BookShelf books={books} shelf={shelves[0]} selectShelf={selectShelf}/>
+            <BookShelf books={books} shelf={shelves[1]} selectShelf={selectShelf}/>
+            <BookShelf books={books} shelf={shelves[2]} selectShelf={selectShelf}/>
 
           </div>
 
@@ -174,18 +178,30 @@ class App extends Component {
     })
   }
 
+
+  selectShelf(bookToUpdate, selectedShelf) {
+    BooksAPI.update(bookToUpdate, selectedShelf).then(bookToUpdate => {
+      bookToUpdate.shelf = selectedShelf
+      this.setState(state => ({
+        books: state.books.concat([ bookToUpdate  ])
+      }))
+    })
+  }
+
   render() {
 
     return (
       <div>
         <Route path="/" exact render={() => (
           <ListBooks
-            books={this.state.books}
+            books={ this.state.books }
+            selectShelf={ this.selectShelf }
           />
         )}/>
 
         <Route path='/search' render={({ history }) => (
           <SearchBooks />
+
         )}/>
       </div>
     );
