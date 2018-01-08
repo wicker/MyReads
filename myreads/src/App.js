@@ -47,9 +47,10 @@ class Book extends Component {
       <div key={ book.key }>
         <div className="book">
           <div className="book-top">
-            <div className="book-cover" style={{ width: `${ book.width }`,
-                                                 height: `${ book.height }`,
-                                                 backgroundImage: `url(${ book.backgroundImage })` }}></div>
+            <div className="book-cover" style={{ width: '128px',
+                                                 height: '192px',
+                                                 backgroundImage: `url(${ book.imageLinks.smallThumbnail })` }}></div>
+          { console.log(book) }
           <SelectShelf book={book} selectShelf={selectShelf} />
 
           </div>
@@ -133,7 +134,6 @@ class ListBooks extends Component {
 class SearchBooks extends Component {
 
   static propTypes = {
-    books: PropTypes.array.isRequired,
     selectShelf: PropTypes.func.isRequired
   }
 
@@ -155,7 +155,7 @@ class SearchBooks extends Component {
   render() {
 
     const { query, bookResults } = this.state
-    const { books, selectShelf } = this.props
+    const { selectShelf } = this.props
 
     return (
 
