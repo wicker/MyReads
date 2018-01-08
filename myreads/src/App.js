@@ -89,7 +89,7 @@ class BookShelf extends Component {
           {books.filter((book) =>
             (book.shelf == shelf.funcName))
                 .map((book) =>
-            (<Book book={book} selectShelf={selectShelf}/>))
+            (<Book book={book} key={book.id} selectShelf={selectShelf}/>))
           }
 
         </div>
@@ -125,9 +125,9 @@ class ListBooks extends Component {
         <div className="list-books-content">
           <div>
 
-            <BookShelf books={books} shelf={shelves[0]} selectShelf={selectShelf}/>
-            <BookShelf books={books} shelf={shelves[1]} selectShelf={selectShelf}/>
-            <BookShelf books={books} shelf={shelves[2]} selectShelf={selectShelf}/>
+            <BookShelf books={books} shelf={shelves[0]} key={shelves[0].funcName} selectShelf={selectShelf}/>
+            <BookShelf books={books} shelf={shelves[1]} key={shelves[1].funcName} selectShelf={selectShelf}/>
+            <BookShelf books={books} shelf={shelves[2]} key={shelves[2].funcName} selectShelf={selectShelf}/>
 
           </div>
 
@@ -139,7 +139,24 @@ class ListBooks extends Component {
 }
 
 class SearchBooks extends Component {
+
+  state = {
+    query: ''
+  }
+
+  updateQuery = (query) => {
+    this.setState({ query: query.replace(/^\s+|\s+$/g, '') })
+  }
+
+  clearQuery = () => {
+    this.setState({query: '' })
+  }
+
+
   render() {
+
+    const { query } = this.state
+
     return (
 
       <div className="search-books">
@@ -153,7 +170,11 @@ class SearchBooks extends Component {
               However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
               you don't find a specific author or title. Every search is limited by search terms.
             */}
-            <input type="text" placeholder="Search by title or author"/>
+            <button className="clear-search" onChange={(event) => this.clearQuery()}>Clear</button>
+            <input type="text" placeholder="Search by title or author"
+              onChange={(event) => this.updateQuery(event.target.value)}
+              value={query}
+            />
 
           </div>
         </div>
@@ -178,13 +199,12 @@ class App extends Component {
     })
   }
 
-
   selectShelf(bookToUpdate, selectedShelf) {
     BooksAPI.update(bookToUpdate, selectedShelf).then(bookToUpdate => {
       bookToUpdate.shelf = selectedShelf
-      this.setState(state => ({
-        books: state.books.concat([ bookToUpdate  ])
-      }))
+      this.setState({
+        books: this.state.books.filter(book => book.id != bookToUpdate.id).push(bookToUpdate)
+      })
     })
   }
 

@@ -127,6 +127,17 @@ body, .app {
   background-size: 28px;
   font-size: 0;
 }
+.clear-search {
+  float:right;  
+  width: 50px;
+  height: 53px;
+  background: white;
+  background-image: url('./icons/clear.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 28px;
+  font-size: 0;
+}
 
 .search-books-results {
   padding: 80px 10px 20px;
