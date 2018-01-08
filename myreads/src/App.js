@@ -141,21 +141,19 @@ class ListBooks extends Component {
 class SearchBooks extends Component {
 
   state = {
-    query: ''
+    query: '',
+    bookResults: []
   }
 
   updateQuery = (query) => {
-    this.setState({ query: query.replace(/^\s+|\s+$/g, '') })
+    BooksAPI.search(query).then((bookResults) => {
+      this.setState({ query: query.replace(/^\s+|\s+$/g, '') })
+    })
   }
-
-  clearQuery = () => {
-    this.setState({query: '' })
-  }
-
 
   render() {
 
-    const { query } = this.state
+    const { query, bookResults } = this.state
 
     return (
 
@@ -170,16 +168,18 @@ class SearchBooks extends Component {
               However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
               you don't find a specific author or title. Every search is limited by search terms.
             */}
-            <button className="clear-search" onChange={(event) => this.clearQuery()}>Clear</button>
             <input type="text" placeholder="Search by title or author"
               onChange={(event) => this.updateQuery(event.target.value)}
               value={query}
             />
 
+
           </div>
         </div>
         <div className="search-books-results">
-          <ol className="books-grid"></ol>
+          <ol className="books-grid">
+            <li>{query}</li>
+          </ol>
         </div>
       </div>
 
