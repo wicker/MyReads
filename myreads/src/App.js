@@ -7,23 +7,25 @@ import PropTypes from 'prop-types'
 class SelectShelf extends Component {
 
   static propTypes = {
-    book: PropTypes.object.isRequired
+    book: PropTypes.object.isRequired,
+    selectShelf: PropTypes.func.isRequired
   }
 
   render() {
 
-    const { book } = this.props
+    const { book, selectShelf } = this.props
 
     return (
       <div className="book-shelf-changer">
         <select id="shelf" value={ book.shelf }
-          onChange={(event) => book.setState({shelf: event.target.value})}
-        >
+          onChange={(e) => selectShelf(book, e.target.value)}>
+
           <option value="none" disabled>Move to...</option>
           <option value="currentlyReading">Currently Reading</option>
           <option value="wantToRead">Want to Read</option>
           <option value="read">Read</option>
           <option value="none">Remove Book</option>
+
         </select>
       </div>
     )
@@ -48,18 +50,8 @@ class Book extends Component {
             <div className="book-cover" style={{ width: `${ book.width }`,
                                                  height: `${ book.height }`,
                                                  backgroundImage: `url(${ book.backgroundImage })` }}></div>
-          <div className="book-shelf-changer">
-            <select id="shelf" value={ book.shelf }
-              onChange={(e) => selectShelf(book, e.target.value)}>
+          <SelectShelf book={book} selectShelf={selectShelf} />
 
-              <option value="none" disabled>Move to...</option>
-              <option value="currentlyReading">Currently Reading</option>
-              <option value="wantToRead">Want to Read</option>
-              <option value="read">Read</option>
-              <option value="none">Remove Book</option>
-
-            </select>
-          </div>
           </div>
           <div className="book-title">{ book.title }</div>
           <div className="book-authors">{ book.authors }</div>
@@ -140,22 +132,30 @@ class ListBooks extends Component {
 
 class SearchBooks extends Component {
 
+  static propTypes = {
+    books: PropTypes.array.isRequired,
+    selectShelf: PropTypes.func.isRequired
+  }
+
   state = {
     query: '',
     bookResults: []
   }
 
-
   updateQuery = (query) => {
+
     this.setState({ query: query.replace(/^\s+|\s+$/g, '') })
-    BooksAPI.search(this.state.query, 12).then((bookResults) => {
-      this.setState({ bookResults: this.state.bookResults })
-    })
+
+		BooksAPI.search(query, 12).then((b) => {
+			this.setState({bookResults: b })
+		})
+
   }
 
   render() {
 
     const { query, bookResults } = this.state
+    const { books, selectShelf } = this.props
 
     return (
 
@@ -180,8 +180,11 @@ class SearchBooks extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            <li>{ query }</li>
-            <li>{ bookResults }</li>
+
+            {bookResults.map((book) =>
+              (<Book book={book} key={book.id} selectShelf={selectShelf}/>))
+            }
+
           </ol>
         </div>
       </div>
@@ -226,7 +229,10 @@ class App extends Component {
         )}/>
 
         <Route path='/search' render={({ history }) => (
-          <SearchBooks />
+          <SearchBooks
+            books={ this.state.books }
+            selectShelf={ this.selectShelf }
+          />
 
         )}/>
       </div>
