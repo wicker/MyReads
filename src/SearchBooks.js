@@ -20,9 +20,9 @@ class SearchBooks extends Component {
 
     this.setState({ query: query.replace(/^\s+|\s+$/g, '') })
 
-		BooksAPI.search(query, 12).then((b) => {
-			this.setState({bookResults: b })
-		})
+    BooksAPI.search(query, 12).then((b) => {
+      this.setState({bookResults: b })
+    })
 
   }
 
