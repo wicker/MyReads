@@ -17,6 +17,26 @@ npm install
 npm start
 ```
 
+# User Interface
+
+The main page displays all books currently on the three shelves: 
+
+```
+Currently Reading
+Want to Read
+Read
+```
+
+A book can be moved from one shelf to another by clicking on the downward arrow icon on each book cover. The move is immediately reflected on the page. There is an additional option on the shelf selection menu to remove a book permanently; if clicked, the book will disappear.
+
+Every displayed book shows a cover (if it exists), the authors (if there are any), and the title. Clicking on the cover image opens a new tab or window with the Google books page. 
+
+New books can be added to one of the three shelves by clicking on the green '+' icon at the page's bottom right. This opens the search page.
+
+On the search page, every keystroke updates the returned list of books. Each book contains the same meta information as the main page. Clicking on the downward icon opens the shelf selection menu and allows the user to assign the book to the appropriate shelf. 
+
+The user can perform multiple searches and shelf assignments. When finished, the user can leave the search page by clicking on the backward arrow to the left of the search bar.
+
 # Design Notes
 
 The overall structure of the app 
@@ -46,24 +66,4 @@ getAll()
 update(book, shelf)
 search(query)
 ```
-
-# User Interface
-
-The main page displays all books currently on the three shelves: 
-
-```
-Currently Reading
-Want to Read
-Read
-```
-
-A book can be moved from one shelf to another by clicking on the downward arrow icon on each book cover. The move is immediately reflected on the page. There is an additional option on the shelf selection menu to remove a book permanently; if clicked, the book will disappear.
-
-Every displayed book shows a cover (if it exists), the authors (if there are any), and the title. Clicking on the cover image opens a new tab or window with the Google books page. 
-
-New books can be added to one of the three shelves by clicking on the green '+' icon at the page's bottom right. This opens the search page.
-
-On the search page, every keystroke updates the returned list of books. Each book contains the same meta information as the main page. Clicking on the downward icon opens the shelf selection menu and allows the user to assign the book to the appropriate shelf. 
-
-The user can perform multiple searches and shelf assignments. When finished, the user can leave the search page by clicking on the backward arrow to the left of the search bar.
 
