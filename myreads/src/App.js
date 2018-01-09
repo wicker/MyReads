@@ -44,7 +44,7 @@ class Book extends Component {
     const { book, selectShelf } = this.props
 
     return (
-      <div key={ book.key }>
+      <li key={ book.key }>
         <div className="book">
           <div className="book-top">
 
@@ -76,7 +76,7 @@ class Book extends Component {
 
 
         </div>
-      </div>
+      </li>
     )
   }
 }
@@ -97,13 +97,13 @@ class BookShelf extends Component {
       <div className="bookshelf">
         <h2 className="bookshelf-title">{ shelf.title }</h2>
         <div className="bookshelf-books">
-
-        {books.filter((book) =>
-            (book.shelf === shelf.funcName))
-                .map((book) =>
-            (<Book book={book} key={book.id} selectShelf={selectShelf}/>))
-          }
-
+          <ol className="books-grid">
+            {books.filter((book) =>
+                (book.shelf === shelf.funcName))
+                    .map((book) =>
+                (<Book book={book} key={book.id} selectShelf={selectShelf}/>))
+              }
+          </ol>
         </div>
       </div>
     )
