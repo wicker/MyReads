@@ -54,7 +54,7 @@ class Book extends Component {
             }
 
             { book.infoLink
-              ? <a href={book.infoLink}>
+              ? <a href={book.infoLink} target="_blank">
                 <div className="book-cover" style={{ width: '128px',
                       height: '192px',
                       backgroundImage: `url(${ book.imageLinks.smallThumbnail })` }}></div>
