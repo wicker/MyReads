@@ -73,7 +73,6 @@ class Book extends Component {
               ? book.authors.map((author) => <p>{author}</p>)
               :  book.authors  }
           </div>
-          { console.log(book) }
 
 
         </div>
@@ -144,7 +143,9 @@ class ListBooks extends Component {
 
           </div>
 
-            <Link className='open-search' to='/search'><a>Search</a></Link>
+          <div className="open-search">
+            <Link to='/search'>Search</Link>
+          </div>
         </div>
       </div>
     )
