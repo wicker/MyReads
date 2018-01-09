@@ -196,10 +196,14 @@ class SearchBooks extends Component {
         <div className="search-books-results">
           <ol className="books-grid">
 
-            {bookResults && bookResults.length > 0
-                 ? bookResults.map((book) =>
-                   (<li key={book.id}><Book book={book} key={book.id} selectShelf={selectShelf}/></li>))
-                 : <li>No results</li> }
+            { bookResults && bookResults.length !== 0
+                ?  bookResults.length > 0
+                    ? bookResults.map((book) =>
+                      (<li key={book.id}><Book book={book} key={book.id} selectShelf={selectShelf}/></li>))
+                    : <li>No results found. Try another search!</li>
+
+                : <li>Start typing to search by author or title</li>
+            }
 
           </ol>
         </div>
