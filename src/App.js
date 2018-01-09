@@ -5,6 +5,7 @@ import SearchBooks from './SearchBooks'
 import ListBooks from './ListBooks'
 import './App.css';
 
+/* Maintains the list of books currently assigned to our shelves */
 class App extends Component {
 
   state = {
@@ -17,11 +18,13 @@ class App extends Component {
     })
   }
 
+  /* This function updates the state of our shelved books */
   selectShelf = (bookToUpdate, selectedShelf) => {
     BooksAPI.update(bookToUpdate, selectedShelf).then(response => {
       bookToUpdate.shelf = selectedShelf
 
-      const booksToUpdate = this.state.books.filter( book => book.id !== bookToUpdate.id)
+      const booksToUpdate =
+        this.state.books.filter( book => book.id !== bookToUpdate.id)
       booksToUpdate.push(bookToUpdate)
 
       this.setState({ books: booksToUpdate })
@@ -29,6 +32,8 @@ class App extends Component {
     })
   }
 
+  /* The Switch statement is an if/else
+   * so there's no need for an exact match */
   render() {
 
     return (
