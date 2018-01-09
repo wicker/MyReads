@@ -17,7 +17,7 @@ class SelectShelf extends Component {
 
     return (
       <div className="book-shelf-changer">
-        <select id="shelf" value={ book.shelf }
+        <select id="shelf" value={ book.shelf ? '' : book.shelf = "none"}
           onChange={(e) => selectShelf(book, e.target.value)}>
 
           <option value="none" disabled>Move to...</option>
@@ -47,12 +47,24 @@ class Book extends Component {
       <div key={ book.key }>
         <div className="book">
           <div className="book-top">
-            <a href={book.infoLink} target="_blank">
-              { console.log({book}) }
-              <div className="book-cover" style={{ width: '128px',
-                    height: '192px',
-                    backgroundImage: `url(${ book.imageLinks.smallThumbnail })` }}></div></a>
-          <SelectShelf book={book} selectShelf={selectShelf} />
+
+            { book.imageLinks && book.imageLinks.smallThumbnail
+              ? ''
+              : book.imageLinks = ''
+            }
+
+            { book.infoLink
+              ? <a href={book.infoLink}>
+                <div className="book-cover" style={{ width: '128px',
+                      height: '192px',
+                      backgroundImage: `url(${ book.imageLinks.smallThumbnail })` }}></div>
+                </a>
+              : <div className="book-cover" style={{ width: '128px',
+                      height: '192px',
+                      backgroundImage: `url(${ book.imageLinks.smallThumbnail })` }}></div>
+            }
+
+            <SelectShelf book={book} selectShelf={selectShelf} />
 
           </div>
           <div className="book-title">{ book.title }</div>
@@ -61,8 +73,8 @@ class Book extends Component {
               ? book.authors.map((author) => <p>{author}</p>)
               :  book.authors  }
           </div>
+          { console.log(book) }
 
-          { console.log(book.authors) }
 
         </div>
       </div>
