@@ -37,7 +37,6 @@ class SelectShelf extends Component {
           {shelves.map((shelf) =>
             (<option key={shelf.funcName} value={shelf.funcName}>{shelf.title}</option>)
           )}
-          { console.log(book.title, book.shelf) }
 
           {/* If the book shelf is already none, no need to include Remove option */}
           { book.shelf === "none" ? '' : <option value="none">Remove Book</option>  }
