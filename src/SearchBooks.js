@@ -24,7 +24,7 @@ class SearchBooks extends Component {
 
   updateQuery = (query) => {
 
-    this.setState({ query: query.replace(/^\s+|\s+$/g, '') })
+    this.setState({ query: query })
 
     BooksAPI.search(query, 12).then((b) => {
       this.setState({bookResults: b })
