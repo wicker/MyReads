@@ -14,7 +14,8 @@ class SearchBooks extends Component {
 
   static propTypes = {
     selectShelf: PropTypes.func.isRequired,
-    shelves: PropTypes.array.isRequired
+    shelves: PropTypes.array.isRequired,
+    books: PropTypes.array.isRequired
   }
 
   state = {
@@ -22,11 +23,26 @@ class SearchBooks extends Component {
     bookResults: []
   }
 
-  updateQuery = (query) => {
+  bookAlreadyShelved = (booksToTest, shelvedBooks) => {
+    for (var i = 0; i < booksToTest.length; i++) {
+      for (var j = 0; j < shelvedBooks.length; j++) {
+        if (booksToTest[i].id === shelvedBooks[j].id)
+        { booksToTest[i].shelf = shelvedBooks[j].shelf }
+      }
+    }
+  }
+
+  updateQuery = (query, books) => {
 
     this.setState({ query: query })
 
-    BooksAPI.search(query, 12).then((b) => {
+    BooksAPI.search(query).then((b) => {
+
+      /* If one of the search result books is already
+         * listed on our shelves, assign our shelf */
+
+      b && this.bookAlreadyShelved(b, books)
+
       this.setState({bookResults: b })
     })
 
@@ -35,7 +51,7 @@ class SearchBooks extends Component {
   render() {
 
     const { query, bookResults } = this.state
-    const { selectShelf, shelves } = this.props
+    const { selectShelf, shelves, books } = this.props
 
     return (
 
@@ -47,7 +63,7 @@ class SearchBooks extends Component {
             <input
               type="text"
               placeholder="Search by title or author"
-              onChange={(event) => this.updateQuery(event.target.value)}
+              onChange={(event) => this.updateQuery(event.target.value, books)}
               value={query}
             />
 
