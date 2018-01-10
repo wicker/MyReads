@@ -22,12 +22,13 @@ class Book extends Component {
 
   static propTypes = {
     book: PropTypes.object.isRequired,
-    selectShelf: PropTypes.func.isRequired
+    selectShelf: PropTypes.func.isRequired,
+    shelves: PropTypes.array.isRequired
   }
 
   render() {
 
-    const { book, selectShelf } = this.props
+    const { book, selectShelf, shelves } = this.props
 
     return (
       <li key={book.id}>
@@ -50,7 +51,7 @@ class Book extends Component {
                       backgroundImage: `url(${ book.imageLinks.smallThumbnail })` }}></div>
             }
 
-            <SelectShelf book={book} selectShelf={selectShelf} />
+            <SelectShelf book={book} selectShelf={selectShelf} shelves={shelves}/>
 
           </div>
           <div className="book-title">

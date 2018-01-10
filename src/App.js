@@ -36,6 +36,17 @@ class App extends Component {
    * so there's no need for an exact match */
   render() {
 
+    /* To add a shelf to the project, add an object to the
+     * 'shelves' array and it will be made available to the
+     * child components */
+    const shelves = [{ title: "Currently Reading",
+                       funcName: "currentlyReading" },
+                     { title: "Want To Read",
+                       funcName: "wantToRead" },
+                     { title: "Hated",
+                       funcName: "hated" },
+                     { title: "Read",
+                       funcName: "read" }]
     return (
       <div>
         <Switch>
@@ -43,6 +54,7 @@ class App extends Component {
             <SearchBooks
               books={ this.state.books }
               selectShelf={ this.selectShelf }
+              shelves={ shelves }
             />
 
           )}/>
@@ -50,6 +62,7 @@ class App extends Component {
             <ListBooks
               books={ this.state.books }
               selectShelf={ this.selectShelf }
+              shelves={ shelves }
             />
           )}/>
         </Switch>

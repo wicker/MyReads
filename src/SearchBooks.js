@@ -13,7 +13,8 @@ import Book from './Book.js'
 class SearchBooks extends Component {
 
   static propTypes = {
-    selectShelf: PropTypes.func.isRequired
+    selectShelf: PropTypes.func.isRequired,
+    shelves: PropTypes.array.isRequired
   }
 
   state = {
@@ -34,7 +35,7 @@ class SearchBooks extends Component {
   render() {
 
     const { query, bookResults } = this.state
-    const { selectShelf } = this.props
+    const { selectShelf, shelves } = this.props
 
     return (
 
@@ -81,6 +82,7 @@ class SearchBooks extends Component {
                 ?  bookResults.length > 0
                     ? bookResults.map((book) =>
                       (<Book book={book} key={book.id}
+                             shelves={shelves}
                              selectShelf={selectShelf}/>))
                     : <div>No results found. Try another search!</div>
 

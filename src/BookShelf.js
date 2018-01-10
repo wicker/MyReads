@@ -2,26 +2,27 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Book from './Book'
 
-/* Each BookShelf component accepts as a property
- * an already-filtered array of books and the
- * appropriate shelf information.
+/* Each BookShelf component accepts as properties
+ * the entire array of books on all shelves
+ * and the particular information for our desired
+ * shelf.
  *
- * There is no filtering done in this component
- * to match incoming book components with a
- * shelf. The calling function should already have
- * done that. */
+ * This component filters the 'books' array based
+ * on the desired shelf information and renders
+ * only the appropriate books. */
 
 class BookShelf extends Component {
 
   static propTypes = {
     books: PropTypes.array.isRequired,
     shelf: PropTypes.object.isRequired,
-    selectShelf: PropTypes.func.isRequired
+    selectShelf: PropTypes.func.isRequired,
+    shelves: PropTypes.array.isRequired
   }
 
   render() {
 
-    const { books, shelf, selectShelf } = this.props
+    const { shelves, books, shelf, selectShelf } = this.props
 
     return (
       <div className="bookshelf">
@@ -29,10 +30,11 @@ class BookShelf extends Component {
         <div className="bookshelf-books">
           <ol className="books-grid">
             {books.filter((book) =>
-                (book.shelf === shelf.funcName))
-                    .map((book) =>
-                (<Book book={book} key={book.id} selectShelf={selectShelf}/>))
-              }
+              (book.shelf === shelf.funcName))
+                  .map((book) =>
+              (<Book book={book} key={book.id}
+                     shelves={shelves} selectShelf={selectShelf}/>))
+            }
           </ol>
         </div>
       </div>

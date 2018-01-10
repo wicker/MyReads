@@ -8,12 +8,13 @@ class SelectShelf extends Component {
 
   static propTypes = {
     book: PropTypes.object.isRequired,
-    selectShelf: PropTypes.func.isRequired
+    selectShelf: PropTypes.func.isRequired,
+    shelves: PropTypes.array.isRequired
   }
 
   render() {
 
-    const { book, selectShelf } = this.props
+    const { book, selectShelf, shelves } = this.props
 
     return (
       <div className="book-shelf-changer">
@@ -21,6 +22,7 @@ class SelectShelf extends Component {
       {/* If a book is already in our library with a shelf
          * assigned, we should inherit that and start out with
          * that selection highlighted.
+         *
          * If a book is not already in our library and has no
          * shelf assigned, assign it to "none" so all of the
          * possible shelf options are available to be selected */}
@@ -29,15 +31,16 @@ class SelectShelf extends Component {
           onChange={(e) => selectShelf(book, e.target.value)}
         >
 
-        {/* See notes in ListBooks.js
-          * TODO: Refactor these components to all
-          * depend dynamically on 'shelves' */}
           <option value="none" disabled>Move to...</option>
-          <option value="currentlyReading">Currently Reading</option>
-          <option value="wantToRead">Want to Read</option>
-          <option value="read">Read</option>
-          <option value="none">Remove Book</option>
 
+          {/* Dynamically render the shelves */}
+          {shelves.map((shelf) =>
+            (<option key={shelf.funcName} value={shelf.funcName}>{shelf.title}</option>)
+          )}
+          { console.log(book.title, book.shelf) }
+
+          {/* If the book shelf is already none, no need to include Remove option */}
+          { book.shelf === "none" ? '' : <option value="none">Remove Book</option>  }
         </select>
       </div>
     )
