@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Book from './Book'
 
@@ -11,35 +11,30 @@ import Book from './Book'
  * on the desired shelf information and renders
  * only the appropriate books. */
 
-class BookShelf extends Component {
+const BookShelf = ({books, shelf, selectShelf, shelves}) => {
 
-  static propTypes = {
-    books: PropTypes.array.isRequired,
-    shelf: PropTypes.object.isRequired,
-    selectShelf: PropTypes.func.isRequired,
-    shelves: PropTypes.array.isRequired
-  }
-
-  render() {
-
-    const { shelves, books, shelf, selectShelf } = this.props
-
-    return (
-      <div className="bookshelf">
-        <h2 className="bookshelf-title">{ shelf.title }</h2>
-        <div className="bookshelf-books">
-          <ol className="books-grid">
-            {books.filter((book) =>
-              (book.shelf === shelf.funcName))
-                  .map((book) =>
-              (<Book book={book} key={book.id}
-                     shelves={shelves} selectShelf={selectShelf}/>))
-            }
-          </ol>
-        </div>
+  return (
+    <div className="bookshelf">
+      <h2 className="bookshelf-title">{ shelf.title }</h2>
+      <div className="bookshelf-books">
+        <ol className="books-grid">
+          {books.filter((book) =>
+            (book.shelf === shelf.funcName))
+                .map((book) =>
+            (<Book book={book} key={book.id}
+                   shelves={shelves} selectShelf={selectShelf}/>))
+          }
+        </ol>
       </div>
-    )
-  }
+    </div>
+  )
+}
+
+BookShelf.PropTypes = {
+  books: PropTypes.array.isRequired,
+  shelf: PropTypes.object.isRequired,
+  selectShelf: PropTypes.func.isRequired,
+  shelves: PropTypes.array.isRequired
 }
 
 export default BookShelf
