@@ -43,8 +43,6 @@ class App extends Component {
                        funcName: "currentlyReading" },
                      { title: "Want To Read",
                        funcName: "wantToRead" },
-                     { title: "Hated",
-                       funcName: "hated" },
                      { title: "Read",
                        funcName: "read" }]
     return (
