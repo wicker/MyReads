@@ -37,6 +37,12 @@ On the search page, every keystroke updates the returned list of books. Each boo
 
 The user can perform multiple searches and shelf assignments. When finished, the user can leave the search page by clicking on the backward arrow to the left of the search bar.
 
+# Screenshots
+
+![Main bookshelf display](img/shelf-screen.png)
+
+![Search screen](img/search-screen.png)
+
 # Design Notes
 
 The overall structure of the app 
